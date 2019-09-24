@@ -27,9 +27,19 @@ contract MessageStorage is Ownable{
         return getBalance() / 1e18;
     }
 
+// transfiere dinero del contrato a la cuenta principal ( owner ) propietario del contrato
+
     function transfer(uint amount) public isOwner{
         require(address(this).balance >= amount,"el balance no puede ser menor a la cantidad");
         owner.transfer(amount);
+    }
+// transfiere dinero del contrato a la cuenta que le indiques
+
+    function transferTo(uint amount,address payable to) public {
+        require(address(this).balance >= amount,"el balance no puede ser menor a la cantidad");
+        // el parametro to(quien envia) tiene que ser una cuenta valida y no una vacia
+        require(to != address(0),"La cuenta debe ser valida");
+        to.transfer(amount);
     }
 
 }
